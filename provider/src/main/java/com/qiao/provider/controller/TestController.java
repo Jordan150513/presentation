@@ -2,7 +2,10 @@ package com.qiao.provider.controller;
 
 
 import com.qiao.provider.common.BasicOut;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -12,14 +15,24 @@ import org.springframework.web.bind.annotation.RestController;
  * @Version 1.0
  **/
 @RestController
-//@RequestMapping("/provider/")
+@RefreshScope
+@RequestMapping("/provider/")
 public class TestController {
 
-    @RequestMapping("/provider/echo/")
+    @RequestMapping("echo/")
     public String test(){
         BasicOut out = new BasicOut();
         out.setMessage("success");
         out.setReturnCode(0);
-        return "Success";
+        return "Success 7";
     }
+
+    @Value("${name}")
+    private String name;
+
+    @RequestMapping(value = "fetchName",method = RequestMethod.GET)
+    public String fetchName(){
+        return this.name;
+    }
+
 }

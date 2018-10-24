@@ -7,9 +7,13 @@ import com.qiao.demo1.service.ConsumerService;
 import com.qiao.demo1.service.ConsumerService2;
 import com.qiao.demo1.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * @Description TODO
@@ -18,28 +22,29 @@ import org.springframework.web.bind.annotation.RestController;
  * @Version 1.0
  **/
 @RestController
+@RefreshScope
 @RequestMapping("/test/")
 public class TestController {
 
-//    @Autowired
-//    private ConsumerService consumerService;
+
     @Autowired
     private ConsumerService2 consumerService2;
     @Autowired
     private TestService testService;
-    //  localhost:8877/TestController/testFeign/
-    @RequestMapping(value = "/testFeign",method = RequestMethod.GET)
+    @Autowired
+    private RestTemplate restTemplate;
 
+    @RequestMapping(value = "/testFeign",method = RequestMethod.GET)
     public String testFeign(){
         return testService.test();
     }
 
-    @RequestMapping("echo")
-    public Object test(){
-        BasicOut out = new BasicOut();
-        out.setMessage("success");
-        out.setReturnCode(0);
-        return out;
+    @Value("${name}")
+    private String name;
+
+    @RequestMapping(value = "fetchName",method = RequestMethod.GET)
+    public String fetchName(){
+        return this.name + " from client-provider-2-user";
     }
 
     @RequestMapping("consumer")
@@ -50,4 +55,14 @@ public class TestController {
         }
        return rs;
     }
+
+    @RequestMapping("ribbon/consumer")
+    @LoadBalanced
+    public Object ribbonConsumer(){
+        String url = "http://microservice-providerdemo/provider/echo/";
+        String rs = restTemplate.getForObject(url,String.class);
+        return rs;
+    }
+
+
 }
