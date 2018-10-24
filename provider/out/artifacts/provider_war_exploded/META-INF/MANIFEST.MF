@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Title: provider
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: qiaodan
+Implementation-Vendor-Id: com.qiao
+Created-By: IntelliJ IDEA
+Build-Jdk: 1.8
+Main-Class: ${start-class}
+
