@@ -16,15 +16,18 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 @RestController
 @RefreshScope
-@RequestMapping("/provider/")
+@RequestMapping("/test/")
 public class TestController {
 
-    @RequestMapping("echo/")
+    @Value("${server.port}")
+    private String portName;
+
+    @RequestMapping("echo")
     public String test(){
         BasicOut out = new BasicOut();
         out.setMessage("success");
         out.setReturnCode(0);
-        return "Success 7";
+        return "Success "+portName;
     }
 
     @Value("${name}")

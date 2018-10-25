@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 @EnableEurekaClient
 @EnableFeignClients
 @EnableHystrix
-//@EnableCircuitBreaker
+@EnableCircuitBreaker
 @SpringBootApplication
 public class Demo1Application {
 
