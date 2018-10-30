@@ -59,7 +59,7 @@ public class TestController {
     @RequestMapping("ribbon/consumer")
     @LoadBalanced
     public Object ribbonConsumer(){
-        String url = "http://microservice-providerdemo/test/echo/";
+        String url = "http://providerdemo/test/echo/";
         String rs = restTemplate.getForObject(url,String.class);
         return rs;
     }
